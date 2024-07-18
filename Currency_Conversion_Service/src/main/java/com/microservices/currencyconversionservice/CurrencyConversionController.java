@@ -18,6 +18,9 @@ public class CurrencyConversionController {
 	@Autowired
 	private RestTemplate restTemplate;
 	
+	@Autowired
+	private CurrencyExchangeFeign currencyExchangeFeign;
+	
 	
 	@GetMapping("/currency-conversion/from/{from}/to/{to}/quantity/{quantity}")
 	public CurrencyConversion calculateCurrencyConversion(
@@ -25,15 +28,17 @@ public class CurrencyConversionController {
 			@PathVariable String to,
 			@PathVariable BigDecimal quantity
 			) {
-		HashMap<String, String> uriVariables = new HashMap<>();
-		uriVariables.put("from",from);
-		uriVariables.put("to",to);
+//		HashMap<String, String> uriVariables = new HashMap<>();
+//		uriVariables.put("from",from);
+//		uriVariables.put("to",to);
+//		
+//		ResponseEntity<CurrencyConversion> responseEntity = restTemplate.getForEntity
+//		( CURRENCY_CONVERSION_BASE_URL + "/currency-exchange/from/{from}/to/{to}",
+//				CurrencyConversion.class, uriVariables);
+//		
+//		CurrencyConversion currencyConversion = responseEntity.getBody();
 		
-		ResponseEntity<CurrencyConversion> responseEntity = restTemplate.getForEntity
-		( CURRENCY_CONVERSION_BASE_URL + "/currency-exchange/from/{from}/to/{to}",
-				CurrencyConversion.class, uriVariables);
-		
-		CurrencyConversion currencyConversion = responseEntity.getBody();
+		CurrencyConversion currencyConversion = currencyExchangeFeign.retrieveExchangeValue(from, to);
 		
 		return new CurrencyConversion(currencyConversion.getId(), 
 				from, to, quantity, 
