@@ -10,6 +10,7 @@ public class CurrencyExchangeServiceApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(CurrencyExchangeServiceApplication.class, args);
+		System.out.println("[+] Currency Exchange started up...");
 	}
 	
 	@Bean

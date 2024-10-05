@@ -10,6 +10,7 @@ public class CurrencyConfigServerApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(CurrencyConfigServerApplication.class, args);
+		System.out.println("[+] Config Server Started up...");
 	}
 
 }
