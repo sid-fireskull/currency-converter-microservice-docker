@@ -1,5 +1,10 @@
 FROM maven:3.8.5-openjdk-17-slim AS build
 WORKDIR /home/app
+
+COPY ./pom.xml /home/app/pom.xml
+COPY ./src/main/java/com/microservices/configserver/CurrencyConfigServerApplication.java /home/app/src/main/java/com/microservices/configserver/CurrencyConfigServerApplication.java
+RUN mvn -f /home/app/pom.xml clean package
+
 COPY . /home/app
 RUN mvn -f /home/app/pom.xml clean package
 
