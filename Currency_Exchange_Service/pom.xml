@@ -6,12 +6,12 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>3.3.1</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<relativePath/>
 	</parent>
 	<groupId>com.microservices.currencyexchangeservice</groupId>
 	<artifactId>Currency_Exchange_Service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Currency_Exchange_Service</name>
+	<name>currency-exchange-service</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
 	<licenses>
@@ -96,13 +96,18 @@
 	<build>
 		<plugins>
 			<plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
+					<image>
+						<name>
+							sid21/${project.name}
+						</name>
+					</image>
+					<pullPolicy>IF_NOT_PRESENT</pullPolicy>
+					<docker>            
+                		<host>//./pipe/dockerDesktopLinuxEngine</host>      
+            		</docker>
 					<excludes>
 						<exclude>
 							<groupId>org.projectlombok</groupId>

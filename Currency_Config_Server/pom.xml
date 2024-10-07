@@ -11,7 +11,7 @@
 	<groupId>com.microservices.configserver</groupId>
 	<artifactId>Currency_Config_Server</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Currency_Config_Server</name>
+	<name>currency_config_server</name>
 	<description>Microservices demo project for Spring Boot Config Server</description>
 	<url/>
 	<licenses>
@@ -62,6 +62,17 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<image>
+						<name>
+							sid21/${project.name}
+						</name>
+					</image>
+					<pullPolicy>IF_NOT_PRESENT</pullPolicy>
+					<docker>            
+                		<host>//./pipe/dockerDesktopLinuxEngine</host>      
+            		</docker>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
