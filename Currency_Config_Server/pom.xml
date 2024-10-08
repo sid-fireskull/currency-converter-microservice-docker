@@ -11,7 +11,7 @@
 	<groupId>com.microservices.configserver</groupId>
 	<artifactId>Currency_Config_Server</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>currency_config_server</name>
+	<name>currency-config-server</name>
 	<description>Microservices demo project for Spring Boot Config Server</description>
 	<url/>
 	<licenses>

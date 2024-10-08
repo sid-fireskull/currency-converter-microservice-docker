@@ -1,32 +1,32 @@
-version: '3.7'
-
 services:
 
-  currency-naming-service:
+  currency-naming-server:
     image: sid21/currency-naming-server:latest
     mem_limit: 500m
     ports:
-      -"5000:5000"
+      - "5000:5000"
     networks:
       - currency-network
     
-  currency-config-service:
+  currency-config-server:
     image: sid21/currency-config-server:latest
     mem_limit: 500m
     ports:
-      -"8888:8888"
+      - "8888:8888"
     networks:
       - currency-network
     depends_on:
     - currency-naming-server
     environment:
       - EUREKA.CLIENT.SERVICEURL.DEFAULTZONE=http://currency-naming-server:5000/eureka
+    volumes:
+      - C:/Users/sid0x/Documents/spring_microservices_workspace/git_local_config_repository :/git-config
 
   currency-api-gateway:
     image: sid21/currency-api-gateway:latest
     mem_limit: 500m
     ports:
-      -"80:80"
+      - "80:80"
     networks:
       - currency-network
     depends_on:
@@ -38,19 +38,20 @@ services:
     image: sid21/currency-exchange-service:latest
     mem_limit: 500m
     ports:
-      -"8110:8110"
+      - "8110:8110"
     networks:
       - currency-network
     depends_on:
     - currency-naming-server
     environment:
     - EUREKA.CLIENT.SERVICEURL.DEFAULTZONE=http://currency-naming-server:5000/eureka
+    - SPRING_DATASOURCE_URL=jdbc:mysql://host.docker.internal:3306/converterDB
 
   currency-conversion-service:
     image: sid21/currency-conversion-service:latest
     mem_limit: 500m
     ports:
-      -"8100:8100"
+      - "8100:8100"
     networks:
       - currency-network
     depends_on:
