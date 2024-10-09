@@ -17,12 +17,17 @@ public class CurrencyConversionController {
 	@Value("${currency.exchange.service.url}")
 	private String CURRENCY_CONVERSION_BASE_URL;
 	
-	@Autowired
-	private RestTemplate restTemplate;
+//	@Autowired
+//	private RestTemplate restTemplate;
 	
 	@Autowired
 	private CurrencyExchangeFeign currencyExchangeFeign;
 	
+	@GetMapping("/currency-conversion/hello")
+	public String sayHello()
+	{
+		return "Hello World";
+	}
 	
 	@GetMapping("/currency-conversion/from/{from}/to/{to}/quantity/{quantity}")
 	public CurrencyConversion calculateCurrencyConversion(
