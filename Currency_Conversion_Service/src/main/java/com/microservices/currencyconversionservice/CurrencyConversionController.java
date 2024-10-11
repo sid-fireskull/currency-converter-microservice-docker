@@ -13,28 +13,24 @@ import org.springframework.web.client.RestTemplate;
 
 @RestController
 public class CurrencyConversionController {
-	
+
 	@Value("${currency.exchange.service.url}")
 	private String CURRENCY_CONVERSION_BASE_URL;
-	
+
 //	@Autowired
 //	private RestTemplate restTemplate;
-	
+
 	@Autowired
 	private CurrencyExchangeFeign currencyExchangeFeign;
-	
+
 	@GetMapping("/currency-conversion/hello")
-	public String sayHello()
-	{
-		return "Hello World";
+	public String sayHello() {
+		return "Hello World, " + "CURRENCY_CONVERSION_BASE_URL: " + CURRENCY_CONVERSION_BASE_URL;
 	}
-	
+
 	@GetMapping("/currency-conversion/from/{from}/to/{to}/quantity/{quantity}")
-	public CurrencyConversion calculateCurrencyConversion(
-			@PathVariable String from,
-			@PathVariable String to,
-			@PathVariable BigDecimal quantity
-			) {
+	public CurrencyConversion calculateCurrencyConversion(@PathVariable String from, @PathVariable String to,
+			@PathVariable BigDecimal quantity) {
 		System.out.println(CURRENCY_CONVERSION_BASE_URL);
 //		HashMap<String, String> uriVariables = new HashMap<>();
 //		uriVariables.put("from",from);
@@ -45,14 +41,13 @@ public class CurrencyConversionController {
 //				CurrencyConversion.class, uriVariables);
 //		
 //		CurrencyConversion currencyConversion = responseEntity.getBody();
-		
+
 		CurrencyConversion currencyConversion = currencyExchangeFeign.retrieveExchangeValue(from, to);
-		
-		return new CurrencyConversion(currencyConversion.getId(), 
-				from, to, quantity, 
-				currencyConversion.getConversionMultiple(), 
-				quantity.multiply(currencyConversion.getConversionMultiple()), 
-				currencyConversion.getEnvironment()+ " " + "rest template");
-		
+
+		return new CurrencyConversion(currencyConversion.getId(), from, to, quantity,
+				currencyConversion.getConversionMultiple(),
+				quantity.multiply(currencyConversion.getConversionMultiple()),
+				currencyConversion.getEnvironment() + " " + "rest template");
+
 	}
 }

@@ -8,19 +8,22 @@ services:
     networks:
       - currency-network
     
-  # currency-config-server:
-  #   image: sid21/currency-config-server:latest
-  #   mem_limit: 700m
-  #   ports:
-  #     - "8888:8888"
-  #   networks:
-  #     - currency-network
-  #   depends_on:
-  #   - currency-naming-server
-  #   environment:
-  #     - EUREKA.CLIENT.SERVICEURL.DEFAULTZONE=http://currency-naming-server:5000/eureka
-  #   volumes:
-  #     - C:/Users/sid0x/Documents/spring_microservices_workspace/git_local_config_repository :/git-config
+  currency-config-server:
+    image: sid21/currency-config-server:latest
+    mem_limit: 700m
+    ports:
+      - "8888:8888"
+    networks:
+      - currency-network
+    depends_on:
+      - currency-naming-server
+    environment:
+      - EUREKA.CLIENT.SERVICEURL.DEFAULTZONE=http://currency-naming-server:5000/eureka
+      - SPRING.CLOUD.CONFIG.SERVER.GIT.URI=file:///git-config
+    volumes:
+      - type: bind
+        source: C:\\Users\\sid0x\\Documents\\spring_microservices_workspace\\git_local_config_repository
+        target: /git-config
 
   currency-api-gateway:
     image: sid21/currency-api-gateway:latest
@@ -42,10 +45,11 @@ services:
     networks:
       - currency-network
     depends_on:
-    - currency-naming-server
+      - currency-naming-server
     environment:
-    - EUREKA.CLIENT.SERVICEURL.DEFAULTZONE=http://currency-naming-server:5000/eureka
-    - SPRING_DATASOURCE_URL=jdbc:mysql://host.docker.internal:3306/converterDB
+      - EUREKA.CLIENT.SERVICEURL.DEFAULTZONE=http://currency-naming-server:5000/eureka
+      - SPRING_DATASOURCE_URL=jdbc:mysql://host.docker.internal:3306/converterDB
+      - SPRING.CONFIG.IMPORT=optional:configserver:http://currency-config-server:8888    
     
   currency-conversion-service:
     image: sid21/currency-conversion-service:latest
@@ -58,6 +62,7 @@ services:
       - currency-naming-server
     environment:
       - EUREKA.CLIENT.SERVICEURL.DEFAULTZONE=http://currency-naming-server:5000/eureka
+      - SPRING.CONFIG.IMPORT=optional:configserver:http://currency-config-server:8888
 
 networks:
   currency-network:

@@ -11,8 +11,8 @@ import org.springframework.web.client.RestTemplate;
 public class CurrencyConversionServiceApplication {
 
 
-	@Bean
-	public RestTemplate restTemplate() {
+    @Bean
+    RestTemplate restTemplate() {
 	    return new RestTemplate();
 	}
 	
